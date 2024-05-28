@@ -1,0 +1,15 @@
+<app-page-heading>
+  <span class="main-heading">COMPANY DETAILS</span>
+</app-page-heading>
+
+@if (selectedCompany) {
+  <app-company-detail
+    [company]="selectedCompany"
+    (listOfficers)="onListOfficers()"
+  />
+
+  <div class="d-flex mt-4 gap-3">
+    <button class="btn btn-secondary" (click)="onBackToSearch_click()"><i class="bi bi-search"></i> New Search</button>
+    <button class="btn btn-secondary" (click)="onBackToSearchResults_click()"><i class="bi bi-list"></i> Back to Search Results</button>
+  </div>
+}

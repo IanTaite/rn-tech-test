@@ -1,0 +1,7 @@
+<div class="company-summary">
+  <div class="title" (click)="onTitle_click()">
+    <strong>{{ company().title | uppercase }}</strong>
+  </div>
+  <div class="description"><strong>{{ companyNumberHelper }}</strong> - {{ incorporatedHelper }}</div>
+  <div class="address-snippet">{{ company().address_snippet }}</div>
+</div>

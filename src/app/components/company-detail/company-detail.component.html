@@ -1,0 +1,43 @@
+<h2>{{ company().title }}</h2>
+<div class="row">
+  <div class="col">
+    <p class="mb-5">
+      Company number <strong>{{ company().company_number }}</strong>
+    </p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col">
+    <div>Registered office address</div>
+    <p><strong>{{ company().address_snippet }}</strong></p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col">
+    <div>Company status</div>
+    <p><strong>{{ company().company_status | sentencecase }}</strong></p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col">
+    <div>Company type</div>
+    <p><strong>{{ company().company_type | companytype | titlecase }}</strong></p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col">
+    <div>Incorporated on</div>
+    <p><strong>{{ company().incorporation_date | incorporationdate }}</strong></p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col">
+    <button type="button" class="btn btn-primary" (click)="listOfficers.emit()"><strong>List Officers</strong></button>
+  </div>
+</div>
+

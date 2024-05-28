@@ -1,0 +1,43 @@
+// SEARCH FOR COMPANY "BBC" WITH NO API_KEY:
+// EXPECT 403 FORBIDDEN
+GET https://angular-exercise.trunarrative.cloud/TruProxyAPI/rest/Companies/v1/Search?Query=BBC
+###
+
+// SEARCH FOR COMPANY "BBC"
+// EXPECT 200 OK WITH SOME RESULTS
+GET https://angular-exercise.trunarrative.cloud/TruProxyAPI/rest/Companies/v1/Search?Query=BBC
+x-api-key: {{$dotenv API_KEY}}
+###
+
+// SEARCH FOR A NON-EXISTANT COMPANY
+// EXPECT 200 OK WITH NO ITEMS
+GET https://angular-exercise.trunarrative.cloud/TruProxyAPI/rest/Companies/v1/Search?Query=X914RT76
+x-api-key: {{$dotenv API_KEY}}
+###
+
+// SEND A MALFORMED SEARCH REQUEST
+// EXPECT 400 BAD REQUEST
+GET https://angular-exercise.trunarrative.cloud/TruProxyAPI/rest/Companies/v1/Search?GIBBERISH=foobarbaz
+x-api-key: {{$dotenv API_KEY}}
+###
+
+// SEND NOTHING IN THE QUERY STRING
+// EXPECT 200 OK WITH NO ITEMS (SAME AS NO SUCH COMPANY)
+GET https://angular-exercise.trunarrative.cloud/TruProxyAPI/rest/Companies/v1/Search?query=
+x-api-key: {{$dotenv API_KEY}}
+###
+
+GET https://angular-exercise.trunarrative.cloud/TruProxyAPI/rest/Companies/v1/Company/06500244
+x-api-key: {{$dotenv API_KEY}}
+###
+GET https://angular-exercise.trunarrative.cloud/TruProxyAPI/rest/Companies/v1/Officers?CompanyNumber=06500244
+x-api-key: {{$dotenv API_KEY}}
+###
+
+GET https://angular-exercise.trunarrative.cloud/TruProxyAPI/rest/Companies/v1/openapi.json
+x-api-key: {{$dotenv API_KEY}}
+###
+
+GET https://angular-exercise.trunarrative.cloud/TruProxyAPI/rest/Companies/v1/Search?Query=ABC
+x-api-key: {{$dotenv API_KEY}}
+###

@@ -1,0 +1,29 @@
+<app-page-heading>
+  <span class="main-header">SEARCH</span>
+</app-page-heading>
+<form [formGroup]="form" class="needs-validation">
+  <div class="row">
+    <div class="col">
+      <div class="mb-2">
+        <input class="form-control form-control-lg" id="searchTerm" type="text" formControlName="searchTerm" #searchBox placeholder="Company Name or Number">
+        @if (searchTermControl?.invalid && searchTermControl?.touched) {
+          <div>Error</div>
+        }
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="d-flex justify-content-center">
+        <button class="btn btn-primary" type="submit" (click)="onSearch_click()" [disabled]="form.invalid">Search</button>
+      </div>
+    </div>
+  </div>
+  @if (noResultsMessage()) {
+    <div class="row">
+      <div class="col">
+        <p>No results found</p>
+      </div>
+    </div>
+  }
+</form>
