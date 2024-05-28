@@ -51,3 +51,7 @@ The Angular App has no need to know and doesn't use the API key.
 (Figure 4 below - Officers List Page)
 
 ![Officers List](/docs/04-officers-list.png 'Officers List Page')
+
+(Figure 5 below - Login Page)
+
+![Officers List](/docs/04-officers-list.png 'Login Page')
