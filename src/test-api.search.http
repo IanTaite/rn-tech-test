@@ -30,7 +30,9 @@ x-api-key: {{$dotenv API_KEY}}
 GET https://angular-exercise.trunarrative.cloud/TruProxyAPI/rest/Companies/v1/Company/06500244
 x-api-key: {{$dotenv API_KEY}}
 ###
-GET https://angular-exercise.trunarrative.cloud/TruProxyAPI/rest/Companies/v1/Officers?CompanyNumber=06500244
+
+// GET COMPANY OFFICERS
+GET https://angular-exercise.trunarrative.cloud/TruProxyAPI/rest/Companies/v1/Officers?CompanyNumber=06500244&PageSize=10
 x-api-key: {{$dotenv API_KEY}}
 ###
 

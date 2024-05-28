@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { mustBeAuthenticatedGuard } from '@guards';
 
 export const routes: Routes = [
   {
@@ -7,7 +8,8 @@ export const routes: Routes = [
   },
   {
     path: 'company-details',
-    loadComponent: () => import('./pages/company-details-page/company-details-page.component').then(c => c.CompanyDetailsPageComponent)
+    loadComponent: () => import('./pages/company-details-page/company-details-page.component').then(c => c.CompanyDetailsPageComponent),
+    canActivate: [mustBeAuthenticatedGuard]
   },
   {
     path: 'search-results',
@@ -16,6 +18,10 @@ export const routes: Routes = [
   {
     path: 'about',
     loadComponent: () => import('./pages/about-page/about-page.component').then(c => c.AboutPageComponent)
+  },
+  {
+    path: 'login',
+    loadComponent: () => import('./pages/login-page/login-page.component').then(c => c.LoginPageComponent)
   },
   {
     path: '',
