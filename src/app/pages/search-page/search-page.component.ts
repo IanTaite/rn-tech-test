@@ -60,17 +60,8 @@ export class SearchPageComponent implements OnInit, AfterViewInit {
     return this.form.get('searchTerm');
   }
 
-  searchTermIsInvalidReason() {
-    if (this.form.get('searchTerm')?.errors) {
-      const searchTermCtrl = this.form.get('searchTerm');
-      if (searchTermCtrl) {
-        const errors = searchTermCtrl.errors;
-        if (errors && errors['required']) {
-          return 'Search term is required';
-        }
-      }
-    }
-    return '';
+  searchTermControlHasError(errorName: string) {
+    return this.searchTermControl?.hasError(errorName);
   }
 
   onSearch_click() {

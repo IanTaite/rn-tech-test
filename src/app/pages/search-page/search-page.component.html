@@ -6,8 +6,8 @@
     <div class="col">
       <div class="mb-2">
         <input class="form-control form-control-lg" id="searchTerm" type="text" formControlName="searchTerm" #searchBox placeholder="Company Name or Number">
-        @if (searchTermControl?.invalid && searchTermControl?.touched) {
-          <div>Error</div>
+        @if (searchTermControl?.touched && searchTermControlHasError('required')) {
+          <div class="validation-error">Please enter a company name or a 8-digit company number</div>
         }
       </div>
     </div>
