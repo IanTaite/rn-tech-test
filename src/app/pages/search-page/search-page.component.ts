@@ -3,6 +3,7 @@ import { FormBuilder, FormsModule, NonNullableFormBuilder, ReactiveFormsModule, 
 import { Router } from '@angular/router';
 import { CompanySearchService } from '../../services/company-search.service';
 import { PageHeadingComponent } from '@components';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-search-page',
@@ -21,6 +22,7 @@ export class SearchPageComponent implements OnInit, AfterViewInit {
   private readonly fb = inject(NonNullableFormBuilder);
   private companySearchService = inject(CompanySearchService);
   private router = inject(Router);
+  private searchSubscription: Subscription | null = null;
 
   searchTerm!: WritableSignal<string>;
   noResultsMessage = signal('');
@@ -65,10 +67,10 @@ export class SearchPageComponent implements OnInit, AfterViewInit {
   }
 
   onSearch_click() {
-    this.noResultsMessage.set('');
     const term = (this.form.value.searchTerm ?? '').trim();
-    if (term) {
-      this.companySearchService.searchForCompanies(term).subscribe({
+    if (term && !this.searchSubscription) {
+      this.noResultsMessage.set('');
+      this.searchSubscription = this.companySearchService.searchForCompanies(term).subscribe({
         next: (data) => {
           if (data.total_results === 0) {
             this.noResultsMessage.set('No results found');
@@ -79,6 +81,10 @@ export class SearchPageComponent implements OnInit, AfterViewInit {
         },
         error: (err) => {
           console.log(err);
+          this.searchSubscription = null;
+        },
+        complete: () => {
+          this.searchSubscription = null;
         }
       });
     }

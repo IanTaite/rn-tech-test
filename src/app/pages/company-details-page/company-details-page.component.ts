@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { CompanySearchService } from '@services';
 import { CompanyDetailComponent, PageHeadingComponent } from '@components';
 import { ISearchCompanyDetail } from '@models/vm';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-company-details-page',
@@ -18,7 +19,7 @@ import { ISearchCompanyDetail } from '@models/vm';
 export class CompanyDetailsPageComponent {
   private router = inject(Router);
   private companySearchService = inject(CompanySearchService);
-
+  private officerSearchSubscription: Subscription | null = null;
   selectedCompany!: ISearchCompanyDetail | null;
 
   ngOnInit(): void {
@@ -30,7 +31,7 @@ export class CompanyDetailsPageComponent {
   }
 
   onListOfficers(): void {
-    if (this.selectedCompany) {
+    if (this.selectedCompany && !this.officerSearchSubscription) {
       this.companySearchService.findCompanyOfficers(this.selectedCompany?.company_number)
         .subscribe({
           next: () => {
@@ -39,6 +40,10 @@ export class CompanyDetailsPageComponent {
           error: (err) => {
             console.log('Failed to find officers for company');
             console.error(err);
+            this.officerSearchSubscription = null;
+          },
+          complete: () => {
+            this.officerSearchSubscription = null;
           }
         });
     }
