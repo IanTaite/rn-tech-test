@@ -32,7 +32,7 @@ export class CompanyDetailsPageComponent {
 
   onListOfficers(): void {
     if (this.selectedCompany && !this.officerSearchSubscription) {
-      this.companySearchService.findCompanyOfficers(this.selectedCompany?.company_number)
+      this.officerSearchSubscription = this.companySearchService.findCompanyOfficers(this.selectedCompany?.company_number)
         .subscribe({
           next: () => {
             this.router.navigateByUrl('/officer-list');
