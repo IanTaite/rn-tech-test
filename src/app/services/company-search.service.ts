@@ -6,13 +6,13 @@ import {
   IApiSearchCompany,
   IApiSearchCompanyOfficersResponse,
   IApiSearchCompanyOfficer,
-} from '../models/api';
+} from '@models/api';
 import {
   ISearchCompaniesResponse,
   ISearchCompanyDetail,
   ISearchCompanyOfficersResponse,
   ISearchCompanyOfficer,
-} from '../models/vm';
+} from '@models/vm';
 
 @Injectable({
   providedIn: 'root',
@@ -22,21 +22,28 @@ export class CompanySearchService {
   private readonly BASE_URL = 'http://localhost:3000/api';
   private readonly STORAGE_KEY = 'companySearchService_state';
 
-  searchTerm = signal<string>('');
-  companySearchResults = signal<ISearchCompaniesResponse | null>(null);
-  companySearchError = signal<Error | null>(null);
-  selectedCompany = signal<ISearchCompanyDetail | null>(null);
-  selectedCompanyOfficers = signal<ISearchCompanyOfficersResponse | null>(null);
-  selectedCompanyOfficersError = signal<Error | null>(null);
+  private _searchTerm = signal<string>('');
+  private _companySearchResults = signal<ISearchCompaniesResponse | null>(null);
+  private _companySearchError = signal<Error | null>(null);
+  private _selectedCompany = signal<ISearchCompanyDetail | null>(null);
+  private _selectedCompanyOfficers = signal<ISearchCompanyOfficersResponse | null>(null);
+  private _selectedCompanyOfficersError = signal<Error | null>(null);
+
+  searchTerm = this._searchTerm.asReadonly();
+  companySearchResults = this._companySearchResults.asReadonly();
+  companySearchError = this._companySearchError.asReadonly();
+  selectedCompany = this._selectedCompany.asReadonly();
+  selectedCompanyOfficers = this._selectedCompanyOfficers.asReadonly();
+  selectedCompanyOfficersError = this._selectedCompanyOfficersError.asReadonly();
 
   constructor() {
     effect(() => {
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify({
-        searchTerm: this.searchTerm(),
-        companySearchResults: this.companySearchResults(),
-        companySearchError: this.companySearchError(),
-        selectedCompany: this.selectedCompany(),
-        selectedCompanyOfficers: this.selectedCompanyOfficers(),
+        searchTerm: this._searchTerm(),
+        companySearchResults: this._companySearchResults(),
+        companySearchError: this._companySearchError(),
+        selectedCompany: this._selectedCompany(),
+        selectedCompanyOfficers: this._selectedCompanyOfficers(),
         selectedCompanyOfficersError: this.selectedCompanyOfficersError(),
       }));
     });
@@ -44,12 +51,12 @@ export class CompanySearchService {
       const storedDataAsString = localStorage.getItem(this.STORAGE_KEY);
       if (storedDataAsString) {
         const storedData = JSON.parse(storedDataAsString);
-        this.searchTerm.set(storedData.searchTerm);
-        this.companySearchResults.set(storedData.companySearchResults);
-        this.companySearchError.set(storedData.companySearchError);
-        this.selectedCompany.set(storedData.selectedCompany);
-        this.selectedCompanyOfficers.set(storedData.selectedCompanyOfficers);
-        this.selectedCompanyOfficersError.set(storedData.selectedCompanyOfficersError);
+        this._searchTerm.set(storedData.searchTerm);
+        this._companySearchResults.set(storedData.companySearchResults);
+        this._companySearchError.set(storedData.companySearchError);
+        this._selectedCompany.set(storedData.selectedCompany);
+        this._selectedCompanyOfficers.set(storedData.selectedCompanyOfficers);
+        this._selectedCompanyOfficersError.set(storedData.selectedCompanyOfficersError);
       }
     } catch {
     }
@@ -58,13 +65,13 @@ export class CompanySearchService {
   searchForCompanies(searchTerm: string): Observable<ISearchCompaniesResponse> {
     const URL = `${this.BASE_URL}/Search`;
     const params = new HttpParams().set('Query', searchTerm);
-    this.companySearchResults.set(null);
-    this.companySearchError.set(null);
+    this._companySearchResults.set(null);
+    this._companySearchError.set(null);
     return this.http.get<IApiSearchCompaniesResponse>(URL, { params }).pipe(
       map((data) => this.mapApiCompanySearchResultToViewModel(data)),
-      tap((data) => this.companySearchResults.set(data)),
+      tap((data) => this._companySearchResults.set(data)),
       catchError((err) => {
-        this.companySearchError.set(err);
+        this._companySearchError.set(err);
         return throwError(() => err);
       })
     );
@@ -94,16 +101,16 @@ export class CompanySearchService {
   }
 
   setSearchTerm(searchTerm: string) {
-    this.searchTerm.set(searchTerm);
+    this._searchTerm.set(searchTerm);
   }
 
   setSelectedCompany(companyNumber: string) {
-    if (this.companySearchResults() !== null && this.companySearchResults()?.items) {
-      const selectedCompany = this.companySearchResults()?.items.find(
+    if (this._companySearchResults() !== null && this._companySearchResults()?.items) {
+      const selectedCompany = this._companySearchResults()?.items.find(
         (company) => company.company_number === companyNumber
       );
       if (selectedCompany) {
-        this.selectedCompany.set(selectedCompany);
+        this._selectedCompany.set(selectedCompany);
       }
     }
   }
@@ -113,15 +120,15 @@ export class CompanySearchService {
   ): Observable<ISearchCompanyOfficersResponse> {
     const URL = `${this.BASE_URL}/Officers`;
     const params = new HttpParams().set('CompanyNumber', companyNumber);
-    this.selectedCompanyOfficers.set(null);
-    this.selectedCompanyOfficersError.set(null);
+    this._selectedCompanyOfficers.set(null);
+    this._selectedCompanyOfficersError.set(null);
     return this.http
       .get<IApiSearchCompanyOfficersResponse>(URL, { params })
       .pipe(
         map((data) => this.mapApiCompanyOfficersSearchResultToViewModel(data)),
-        tap((data) => this.selectedCompanyOfficers.set(data)),
+        tap((data) => this._selectedCompanyOfficers.set(data)),
         catchError((err) => {
-          this.selectedCompanyOfficersError.set(err);
+          this._selectedCompanyOfficersError.set(err);
           return throwError(() => err);
         })
       );

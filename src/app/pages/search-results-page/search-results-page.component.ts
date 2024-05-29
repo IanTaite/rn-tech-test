@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, WritableSignal, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, Signal, WritableSignal, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { CompanySearchService } from '@services';
 import { ISearchCompaniesResponse } from '@models/vm';
@@ -19,7 +19,7 @@ export class SearchResultsPageComponent implements OnInit {
   private router = inject(Router);
   private companySearchService = inject(CompanySearchService);
 
-  results!: WritableSignal<ISearchCompaniesResponse | null>;
+  results!: Signal<ISearchCompaniesResponse | null>;
 
   ngOnInit(): void {
     this.results = this.companySearchService.companySearchResults;
