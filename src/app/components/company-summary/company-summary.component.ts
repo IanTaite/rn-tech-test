@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Output, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { UpperCasePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { formatDateForPresentation } from '@utilities';
@@ -17,7 +17,7 @@ import { ISearchCompanyDetail } from '@models/vm';
 })
 export class CompanySummaryComponent {
   company = input.required<ISearchCompanyDetail>();
-  @Output() companySelected = new EventEmitter<string>();
+  companySelected = output<string>();
 
   get companyNumberHelper() {
     return this.company().description.split(' - ')[0];

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, input, Output } from '@angular/core';
+import { Component, inject, input, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
@@ -12,8 +12,8 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 })
 export class LoginPanelComponent {
   errorMessage = input<string>('');
-  @Output() login = new EventEmitter<{username: string, password: string}>();
-  @Output() cancel = new EventEmitter<void>();
+  login = output<{username: string, password: string}>();
+  cancel = output();
 
   private fb = inject(FormBuilder);
 

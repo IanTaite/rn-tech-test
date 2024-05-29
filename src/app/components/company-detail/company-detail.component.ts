@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, input, Output, EventEmitter } from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, output } from '@angular/core';
 import { TitleCasePipe } from '@angular/common';
 import { CompanyTypePipe, IncorporationDatePipe, SentenceCasePipe } from '@pipes';
 import { ISearchCompanyDetail } from '@models/vm';
@@ -18,5 +18,5 @@ import { ISearchCompanyDetail } from '@models/vm';
 })
 export class CompanyDetailComponent {
   company = input.required<ISearchCompanyDetail>();
-  @Output() listOfficers = new EventEmitter<void>();
+  listOfficers = output();
 }
