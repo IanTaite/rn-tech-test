@@ -3,6 +3,16 @@
   <span class="sub-heading">Company number <strong>{{ company()?.company_number }}</strong></span>
 </app-page-heading>
 
+<div class="row">
+  <div class="col">
+    <div class="d-flex mt-2 mb-4 gap-3">
+      <button class="btn btn-secondary" (click)="onBackToSearch_click()"><i class="bi bi-search"></i> New Search</button>
+      <button class="btn btn-secondary" (click)="onBackToSearchResults_click()"><i class="bi bi-list"></i> Back to Search Results</button>
+      <button class="btn btn-secondary" (click)="onBackToCompanyDetails_click()"><i class="bi bi-building"></i> Back to Company Details</button>
+    </div>
+  </div>
+</div>
+
 @for (officer of officers()?.items; track officer) {
   <div class="row">
     <div class="col">
